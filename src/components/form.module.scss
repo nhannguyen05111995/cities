@@ -1,0 +1,50 @@
+.select {
+    width: 100%;
+    border: 1px solid var(--bs-border-color);
+
+    height: 0;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+
+.special:focus {
+
+    outline: 0;
+    -moz-outline-style: none;
+    box-shadow: none;
+    border-color: var(--bs-border-color);
+
+    .popup {
+        display: block;
+    }
+}
+
+.special:focus~.popup {
+    display: block;
+}
+
+
+.form {
+    padding: 2rem 0;
+
+}
+
+.popup {
+    position: absolute;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 11111;
+    background: #fff;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    display: none;
+}
+
+.popup:hover {
+    display: block;
+}
