@@ -4,28 +4,33 @@ import { useEffect } from "react";
 import classes from "./form.module.scss";
 import Modal from "./Modal";
 import dynamic from "next/dynamic";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 interface CountryOption {
   name: string;
   code: string;
+  checked: boolean;
 }
 
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
 interface FormProps {
   props: {
-    onChange: (queryString: string) => void;
+    setQuery: any;
+    setCities: any;
   };
 }
 
-const Form = ({
-  props,
-}: FormProps) => {
+const Form = ({ props }: FormProps) => {
   const [value, setValue] = useState<string>("");
+  const [countryIdsValue, setcountryIdsValue] = useState<string>("");
+  const [selectedCountryIdsValue, setSelectedCountryIdsValue] =
+    useState<string>("");
+
   const [options, setOptions] = useState<CountryOption[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const [location, setLocation] = useState<string>("");
+  const [popupOpen, setPopupOpen] = useState<boolean>(false);
 
   function handleChange(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,7 +43,8 @@ const Form = ({
     for (let [key, value] of formData.entries()) {
       if (value) queryString += `${key}=${value}&`;
     }
-    props.onChange(queryString);
+    props.setCities([]);
+    props.setQuery(queryString);
   }
 
   useEffect(() => {
@@ -47,7 +53,8 @@ const Form = ({
       const response = await fetch(url);
       const json = await response.json();
       setLoading(false);
-      setOptions(json.data);
+      const yy = json.data.map((e) => ({ ...e, checked: false }));
+      setOptions(yy);
     };
 
     const a = setTimeout(() => {
@@ -63,6 +70,33 @@ const Form = ({
     setLocation(pos);
   }
 
+  function openMap(event) {
+    event.preventDefault();
+    setModal(true);
+  }
+
+  const handleCheckBoxClicked = (e) => {
+    const updatedCheckedState = options.map((item) =>
+      item.code === e ? { ...item, checked: !item.checked } : item
+    );
+    setOptions(updatedCheckedState);
+    const yyy = updatedCheckedState
+      .filter((option) => option.checked)
+      .map((option) => option.code)
+      .join(",");
+    setcountryIdsValue(yyy);
+    const ttt = updatedCheckedState
+      .filter((option) => option.checked)
+      .map((option) => option.name)
+      .join(", ");
+    setcountryIdsValue(yyy);
+
+    setSelectedCountryIdsValue(ttt);
+  };
+  function toggle(event) {
+    event.preventDefault();
+    setPopupOpen((prev) => !prev);
+  }
   return (
     <>
       <form onSubmit={handleChange} className={"row " + classes.form}>
@@ -78,18 +112,26 @@ const Form = ({
         <div className="col position-relative">
           <input
             type="text"
-            className={"form-control " + classes.special}
+            className={"d-none " + classes.special}
             placeholder="Select countries"
-            name=""
-            onChange={(e) => {
-              setLoading(true);
-              setValue(e.target.value);
-            }}
+            name="countryIds"
+            defaultValue={countryIdsValue}
           />
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
+          <button className="btn btn-outline-secondary" onClick={toggle}>
+            Select countries
+          </button>
+          {selectedCountryIdsValue&& <p>{selectedCountryIdsValue}</p>}
+          {popupOpen == true && (
             <div className={classes.popup}>
+              <input
+                type="text"
+                className={"form-control " + classes.special}
+                placeholder="Search..."
+                onChange={(e) => {
+                  setLoading(true);
+                  setValue(e.target.value);
+                }}
+              />
               {options &&
                 options.map((option) => (
                   <div key={`countryID${option.code}`}>
@@ -100,9 +142,14 @@ const Form = ({
                       type="checkbox"
                       id={`countryID${option.code}`}
                       defaultValue={option.code}
+                      onChange={() => handleCheckBoxClicked(option.code)}
+                      checked={option.checked}
                     />
                   </div>
                 ))}
+              <button className="btn btn-primary btn-sm mt-3" onClick={toggle}>
+                Save
+              </button>
             </div>
           )}
         </div>
@@ -114,10 +161,7 @@ const Form = ({
             defaultValue={location}
             name="location"
           />
-          <button
-            className="btn btn-link btn-sm"
-            onClick={() => setModal(true)}
-          >
+          <button className="btn btn-link btn-sm" onClick={openMap}>
             Open map
           </button>
         </div>

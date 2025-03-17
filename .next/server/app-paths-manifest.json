@@ -1,1 +1,6 @@
-{}
+{
+  "/api/countries/route": "app/api/countries/route.js",
+  "/api/cities/route": "app/api/cities/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js"
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import type { CityKey, SortBy, SortCondition } from "~/type/Type";
-
+import classes from "./sortButtons.module.scss"
 const SortButtons = ({
   props,
 }: {
@@ -19,7 +19,7 @@ const SortButtons = ({
           sortCondition.type == type && sortCondition.down
             ? "btn-primary"
             : "btn-outline-secondary"
-        }`}
+        } ` + classes.btn_xs}
         onClick={() => props.sortBy({ type, down: true })}
       >
         <i className="bi bi-caret-up-fill" />
@@ -29,7 +29,7 @@ const SortButtons = ({
           sortCondition.type == type && sortCondition.down == false
             ? "btn-primary"
             : "btn-outline-secondary"
-        }`}
+        } ` + classes.btn_xs}
         onClick={() => props.sortBy({ type, down: false })}
       >
         <i className="bi bi-caret-down-fill" />

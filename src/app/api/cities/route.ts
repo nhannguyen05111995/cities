@@ -7,22 +7,24 @@ export async function GET(req,) {
         const API_URL = process.env.API_URL;
         const X_RAPID_API_KEY = process.env.API_KEY;
         const X_RAPID_API_HOST = process.env.API_HOST;
-        console.log(X_RAPID_API_KEY);
-        
         const page = req.nextUrl.searchParams.get("offset");
-        const query = req.nextUrl.searchParams.get("query").replaceAll("+", "%2B");      
-        const url = `${API_URL}/v1/geo/cities?offset=${page}&limit=10&${query}`;        
+        const query = req.nextUrl.searchParams.get("query").replaceAll("+", "%2B");
+        const url = `${API_URL}/v1/geo/cities?offset=${page}&limit=10&${query}`;
         const response = await fetch(url, {
             headers: {
                 "x-rapidapi-key": X_RAPID_API_KEY,
                 "x-rapidapi-host": X_RAPID_API_HOST,
             },
         });
-        const json = await response.json();        
+        const json = await response.json();
+        console.log(json);
+        if (json.hasOwnProperty("message"))
+            return NextResponse.json({});
+
         return NextResponse.json(json);
     } catch (err) {
         console.log(err);
-        
+
         return NextResponse.json({ error: err.message });
     }
 }
