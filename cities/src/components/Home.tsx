@@ -39,7 +39,7 @@ export default function Home() {
 
     const fetchdata = async (query = "") => {
         setLoading(true);
-        const url = `/api/meals/?offset=${page}&limit=10&query=${query}`;
+        const url = `/api/cities/?offset=${page}&limit=10&query=${query}`;
         const response = await fetch(url);
 
         const json = await response.json();
