@@ -11,7 +11,7 @@ type TableProps = {
   cities: GeoDBAPI.City[];
   columns: Column[];
   focusLocation: Position;
-  setFocusLocation: any;
+  setFocusLocation: (p:Position)=>void;
   loading: boolean;
   setSortCondition: (p: SortCondition) => void;
 };

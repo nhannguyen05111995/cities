@@ -38,7 +38,7 @@ const Form = ({ props }: FormProps) => {
       (formData.get("location") as string)?.replaceAll("+", "%2B")
     );
     let queryString = "";
-    for (let [key, value] of formData.entries()) {
+    for (const [key, value] of formData.entries()) {
       if (value) queryString += `${key}=${value}&`;
     }
     props.setCities([]);

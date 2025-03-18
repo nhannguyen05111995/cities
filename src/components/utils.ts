@@ -10,6 +10,7 @@ export function sortBy(params: SortBy): GeoDBAPI.City[] {
                 }
                 return (a[type] as number) - (b[type] as number);
             } catch (error) {
+                console.log(error);
                 return (Number(a[type]) || 0) - (Number(b[type]) || 0);
             }
         } else {
@@ -19,6 +20,7 @@ export function sortBy(params: SortBy): GeoDBAPI.City[] {
                 }
                 return (b[type] as number) - (a[type] as number);
             } catch (error) {
+                console.log(error);
                 return (Number(b[type]) || 0) - (Number(a[type]) || 0);
             }
         }

@@ -9,11 +9,7 @@ import dynamic from "next/dynamic";
 import { Position } from "./Map";
 import Table from "./Table";
 import { sortBy } from "./utils";
-import {
-  Column,
-  GeoDBAPI,
-  SortCondition,
-} from "@/configuration/Type";
+import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
 import {
   defaulPosition,
   defaulSortCondition,
@@ -33,26 +29,25 @@ export default function Home() {
   const [query, setQuery] = useState<string>("");
   const [focusLocation, setFocusLocation] = useState<Position>(defaulPosition);
 
-  const fetchdata = async () => {
-    setLoading(true);
-    const url = `/api/cities/?offset=${page}&limit=10&query=${query}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    setLoading(false);
-
-    if (!Object.keys(json).length || "errors" in json) {
-      alert("Something went wrong, try again!");
-      return;
-    }
-    const sortedArray = sortBy({
-      ...sortCondition,
-      array: [...cities, ...json.data],
-    });
-    setCities([...sortedArray]);
-    setLinks(json.links);
-  };
-
   useEffect(() => {
+    const fetchdata = async () => {
+      setLoading(true);
+      const url = `/api/cities/?offset=${page}&limit=10&query=${query}`;
+      const response = await fetch(url);
+      const json = await response.json();
+      setLoading(false);
+
+      if (!Object.keys(json).length || "errors" in json) {
+        alert("Something went wrong, try again!");
+        return;
+      }
+      const sortedArray = sortBy({
+        ...sortCondition,
+        array: [...cities, ...json.data],
+      });
+      setCities([...sortedArray]);
+      setLinks(json.links);
+    };
     fetchdata();
   }, [page, query]);
 
