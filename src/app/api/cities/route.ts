@@ -24,7 +24,7 @@ export async function GET(req: NextRequest,) {
         if (json.hasOwnProperty("message"))
             return NextResponse.json({});
 
-        return NextResponse.json({}, json);
+        return NextResponse.json(json);
     } catch (err:unknown) {
         console.log(err);
         

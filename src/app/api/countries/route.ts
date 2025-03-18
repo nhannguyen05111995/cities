@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
         const response = await fetch(url, requestOptions);
         const json = await response.json();
 
-        return NextResponse.json({}, json);
+        return NextResponse.json(json);
     } catch (err: unknown) {
         console.log(err);
 
