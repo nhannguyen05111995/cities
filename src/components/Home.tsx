@@ -83,7 +83,7 @@ export default function Home() {
         {links && links.find((link) => link.rel == "next") && (
           <button
             disabled={loading}
-            className="btn btn-outline-primary btn-sm ml-3"
+            className="btn btn-outline-primary btn-sm ml-3 mb-5"
             onClick={() => {
               setPage((prev) => (prev = prev + 10));
             }}

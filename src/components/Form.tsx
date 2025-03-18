@@ -8,6 +8,7 @@ import "leaflet/dist/leaflet.css";
 import { Position } from "./Map";
 import { defaulPosition } from "@/configuration/Constant";
 import { GeoDBAPI } from "@/configuration/Type";
+import Accordion from "./UI/Accordion";
 
 interface CountryOption {
   name: string;
@@ -19,7 +20,7 @@ const Map = dynamic(() => import("./Map"), { ssr: false });
 interface FormProps {
   props: {
     setQuery: (p: string) => void;
-    setCities: (p:  GeoDBAPI.City []) => void;
+    setCities: (p: GeoDBAPI.City[]) => void;
   };
 }
 
@@ -79,92 +80,95 @@ const Form = ({ props }: FormProps) => {
 
   return (
     <>
-      <h4> Search criteria:</h4>
-      <form onSubmit={handleSubmit} className={"row mb-4"}>
-        <div className="col">
-          <label htmlFor="namePrefix">Name prefix:</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Name prefix"
-            name="namePrefix"
-            id="namePrefix"
-          />
-        </div>
-        <div className="col position-relative">
-          <label htmlFor="countryIds">Country:</label>
-          <input
-            type="text"
-            className={"form-control mb-2 " + classes.special}
-            placeholder="Search..."
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-          />
-          {loading ? (
-            <p>Loading..</p>
-          ) : loading == false && options && options.length ? (
-            <select
-              className="form-select"
-              name="countryIds"
-              multiple
-              aria-label="multiple select example"
-            >
-              {options.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="col">
-          <label htmlFor="GPS-location">GPS location:</label>
-          <input
-            type="text"
-            className="form-control mb-2 d-none"
-            defaultValue={location}
-            name="location"
-            id="GPS-location"
-          />
-          <button className="form-control mb-2" onClick={openMap}>
-            Pick a location <i className="bi bi-geo-alt-fill"></i>
-          </button>
-          {location && (
-            <>
-              <p className="mb-0">Lat: {shownLocation.lat.toFixed(4)}</p>
-              <p>Lng: {shownLocation.lng.toFixed(4)}</p>
-            </>
-          )}
-        </div>
-        <div className="col">
-          <label htmlFor="minPopulation">Min population:</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Min population"
-            name="minPopulation"
-            id="minPopulation"
-          />
-        </div>
-        <div className="col">
-          <label htmlFor="maxPopulation">Max population:</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Max population"
-            name="maxPopulation"
-          />
-        </div>
-        <div className="col">
-          <button className="form-control mb-2 btn btn-primary" type="submit">
-            Find
-          </button>
-        </div>
-      </form>
-
+      <Accordion title="Table filter:">
+        <form onSubmit={handleSubmit} className={"row mb-4"}>
+          <div className="col">
+            <label htmlFor="namePrefix">Name prefix:</label>
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Name prefix"
+              name="namePrefix"
+              id="namePrefix"
+            />
+          </div>
+          <div className="col position-relative">
+            <label htmlFor="countryIds">Country:</label>
+            <input
+              type="text"
+              className={"form-control mb-2 " + classes.special}
+              placeholder="Search..."
+              onChange={(e) => {
+                setLoading(true);
+                setValue(e.target.value);
+              }}
+            />
+            {loading ? (
+              <p>Loading..</p>
+            ) : loading == false && options && options.length ? (
+              <select
+                className="form-select"
+                name="countryIds"
+                multiple
+                aria-label="multiple select example"
+              >
+                {options.map((option) => (
+                  <option key={option.code} value={option.code}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="col">
+            <label htmlFor="GPS-location">
+              GPS location: <i className="bi bi-geo-alt-fill"></i>
+            </label>
+            <input
+              type="text"
+              className="form-control mb-2 d-none"
+              defaultValue={location}
+              name="location"
+              id="GPS-location"
+            />
+            <button className="form-control mb-2" onClick={openMap}>
+              Pick a location
+            </button>
+            {location && (
+              <>
+                <p className="mb-0">Lat: {shownLocation.lat.toFixed(4)}</p>
+                <p>Lng: {shownLocation.lng.toFixed(4)}</p>
+              </>
+            )}
+          </div>
+          <div className="col">
+            <label htmlFor="minPopulation">Min population:</label>
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Min population"
+              name="minPopulation"
+              id="minPopulation"
+            />
+          </div>
+          <div className="col">
+            <label htmlFor="maxPopulation">Max population:</label>
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Max population"
+              name="maxPopulation"
+            />
+          </div>
+          <div className="col">
+            <button className="form-control mb-2 btn btn-primary" type="submit">
+              Find
+            </button>
+          </div>
+        </form>
+      </Accordion>
       <Modal openModal={modal} closeModal={() => setModal(false)}>
         <Map
           onDragEnd={(pos: string) => setLocation(pos)}

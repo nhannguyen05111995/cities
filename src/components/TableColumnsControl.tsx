@@ -9,8 +9,8 @@ interface TableHeadProps {
 const TableHead = ({ props }: { props: TableHeadProps }) => {
     const { columns } = props;
     return (
-        <div className="mb-3">
-            <label className="mr-3">Columns:</label>
+        <div className="mt-4 mb-2">
+            <b className="mr-3">Show columns:</b>
             {columns.map(({ name, type, open }) => (
                 <div key={`checkbox-${type}`} className="form-check form-check-inline">
                     <input
