@@ -28,10 +28,6 @@ function Modal({ openModal, closeModal, children }: ModalProps) {
         <button className="btn btn-outline-dark" onClick={closeModal}><i className="bi bi-x-lg"></i></button>
       </div>
       {children}
-
-      <div className="mt-2 text-end">
-        <button className="btn btn-success" onClick={closeModal}>Apply</button>
-      </div>
     </dialog>
 
   );
