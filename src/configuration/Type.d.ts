@@ -5,11 +5,11 @@ export interface FilterFormDataBody {
 export type Column = {
     open: boolean;
     name: string;
-    type: CityKey;
+    type: keyof GeoDBAPI.City;
     map: boolean
 };
 export type SortCondition = {
-    type: CityKey;
+    type: keyof GeoDBAPI.City;
     down: boolean;
 };
 export type SortBy = SortCondition & {
@@ -33,7 +33,7 @@ export namespace GeoDBAPI {
         population: number;
         type: string;
     };
-    type CityKey = "city" | 'country' | "name" | "countryCode" | "region" | 'regionCode' | 'regionWdId' | 'wikiDataId' | 'latitude' | 'longitude' | 'population' | 'type'
+    type CityKey = keyof City
 
     interface ResponseLink {
         rel: string;

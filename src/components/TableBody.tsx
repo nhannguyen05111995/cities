@@ -20,7 +20,7 @@ const TableBody = ({ props }: { props: TableBodyProps }) => {
             .map((column, i) => (
               <td key={i}>
                 {!column.map ? (
-                  <>{city[column.type]}</>
+                  <span>{city[column.type]}</span>
                 ) : (
                   <button
                     className="btn btn-sm btn-link"

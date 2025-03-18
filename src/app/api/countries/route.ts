@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { type NextRequest } from 'next/server'
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
 
     try {
         const API_URL = process.env.API_URL;
@@ -8,18 +9,24 @@ export async function GET(req) {
         const X_RAPID_API_HOST = process.env.API_HOST;
         const value = req.nextUrl.searchParams.get("namePrefix");
         const url = `${API_URL}/v1/geo/countries?namePrefix=${value}`;
+        const headers = new Headers();
 
-        const response = await fetch(url, {
-            headers: {
-                "x-rapidapi-key": X_RAPID_API_KEY,
-                "x-rapidapi-host": X_RAPID_API_HOST,
-            },
-        });
+        headers.append("x-rapidapi-key", X_RAPID_API_KEY as string);
+        headers.append("x-rapidapi-host", X_RAPID_API_HOST as string);
+
+
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+        };
+        const response = await fetch(url, requestOptions);
         const json = await response.json();
 
-        return NextResponse.json(json);
-    } catch (err) {
-        return NextResponse.json({ error: err.message });
+        return NextResponse.json({}, json);
+    } catch (err: unknown) {
+        console.log(err);
+
+        return NextResponse.json({ error: "failed" });
     }
 }
 

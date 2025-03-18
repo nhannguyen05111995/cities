@@ -3,11 +3,12 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { useEffect, useRef, useState } from "react";
+import * as L from 'leaflet'
 
 interface MapProps {
   open: boolean;
-  onDragEnd: (coordinates: string) => void;
-  setShownLocation: ({}) => void;
+  onDragEnd?: (coordinates: string) => void;
+  setShownLocation?: (p:Position) => void;
   location: Position;
 }
 

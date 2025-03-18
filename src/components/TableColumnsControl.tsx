@@ -1,5 +1,5 @@
+import { Column } from "@/configuration/Type";
 import React from "react";
-import type { Column } from "../type/Type";
 
 interface TableHeadProps {
     columns: Column[];
