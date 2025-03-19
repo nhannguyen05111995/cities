@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useRef } from "react";
 import classes from "./accordion.module.scss";
 interface AccordionProps {
   title: string;
   children: React.ReactNode;
 }
 function Accordion({ title, children }: AccordionProps) {
-  const ref = useRef<HTMLDialogElement | null>(null);
   const [open, setOpen] = useState<boolean>(true);
   const classess =
     (open && classes.accordion_open) + " " + classes.accordion_body;

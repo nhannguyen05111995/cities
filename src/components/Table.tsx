@@ -1,6 +1,5 @@
 import { GeoDBAPI, Column, SortBy, SortCondition } from "@/configuration/Type";
 import React from "react";
-import { Position } from "./Map";
 import TableBody from "./TableBody";
 import classes from "./home.module.scss";
 import TableHead from "./TableHead";
@@ -10,8 +9,7 @@ type TableProps = {
   sortBy: (params: SortBy) => GeoDBAPI.City[];
   cities: GeoDBAPI.City[];
   columns: Column[];
-  focusLocation: Position;
-  setFocusLocation: (p:Position)=>void;
+  setFocusLocation: (p: GeoDBAPI.City) => void;
   loading: boolean;
   setSortCondition: (p: SortCondition) => void;
 };
@@ -36,7 +34,6 @@ const Table = ({ props }: { props: TableProps }) => {
             props={{
               cities,
               columns,
-              setFocusLocation,
               setSortCondition,
               sortBy,
               sortCondition,

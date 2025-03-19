@@ -6,15 +6,11 @@ import classes from "./home.module.scss";
 import TableColumnsControl from "./TableColumnsControl";
 import Modal from "./UI/Modal";
 import dynamic from "next/dynamic";
-import { Position } from "./Map";
 import Table from "./Table";
 import { sortBy } from "./utils";
 import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
-import {
-  defaulPosition,
-  defaulSortCondition,
-  initialColumns,
-} from "@/configuration/Constant";
+import { defaulSortCondition, initialColumns } from "@/configuration/Constant";
+import LoadMore from "./LoadMore";
 
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
@@ -27,7 +23,7 @@ export default function Home() {
     useState<SortCondition>(defaulSortCondition);
   const [columns, setColumns] = useState<Column[]>(initialColumns);
   const [query, setQuery] = useState<string>("");
-  const [focusLocation, setFocusLocation] = useState<Position>(defaulPosition);
+  const [focusLocation, setFocusLocation] = useState<GeoDBAPI.City | undefined>();
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -63,41 +59,43 @@ export default function Home() {
   }
 
   return (
-    <div className="container">
-      <h1>Cities</h1>
-      <Form props={{ setQuery, setCities }} />
-      <TableColumnsControl props={{ columns, checkBoxClicked }} />
-      <Table
-        props={{
-          sortCondition,
-          setSortCondition,
-          sortBy,
-          cities,
-          columns,
-          focusLocation,
-          setFocusLocation,
-          loading,
-        }}
-      />
-      <div className={classes.control}>
-        {links && links.find((link) => link.rel == "next") && (
-          <button
-            disabled={loading}
-            className="btn btn-outline-primary btn-sm ml-3 mb-5"
-            onClick={() => {
-              setPage((prev) => (prev = prev + 10));
-            }}
-          >
-            {!loading ? "Load more" : "🌀 Loading..."}
-          </button>
-        )}
+    <>
+      {" "}
+      <img src="/global.jpg" alt="Global" className={classes.banner} />
+      <div className="container-xxl">
+        <h1 className="text-center mb-5">World cities</h1>
+        <Form props={{ setQuery, setCities }} />
+        <TableColumnsControl props={{ columns, checkBoxClicked }} />
+        <Table
+          props={{
+            sortCondition,
+            setSortCondition,
+            sortBy,
+            cities,
+            columns,
+            setFocusLocation,
+            loading,
+          }}
+        />
+        <LoadMore
+          props={{
+            loading,
+            setPage: () => {
+              setPage((prev) => prev + 10);
+            },
+            links,
+          }}
+        />
+        <Modal
+          openModal={focusLocation != null}
+          closeModal={() => setFocusLocation(undefined)}
+        >
+          <Map
+            open={focusLocation != null}
+            focusCity={focusLocation}
+          ></Map>
+        </Modal>
       </div>
-      <Modal
-        openModal={focusLocation.lat != 0}
-        closeModal={() => setFocusLocation(defaulPosition)}
-      >
-        <Map open={focusLocation.lat != 0} location={focusLocation}></Map>
-      </Modal>
-    </div>
+    </>
   );
 }

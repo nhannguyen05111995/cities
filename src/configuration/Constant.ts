@@ -12,8 +12,8 @@ export const initialColumns: Column[] = [
 ];
 
 export const defaulPosition: Position = {
-    lat: 0,
-    lng: 0
+    lat: 24,
+    lng: 60
 }
 
 export const defaulSortCondition: SortCondition = {

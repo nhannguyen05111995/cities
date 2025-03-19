@@ -1,11 +1,10 @@
 import React from "react";
-import { Position } from "./Map";
 import { GeoDBAPI, Column } from "@/configuration/Type";
 
 type TableBodyProps = {
   cities: GeoDBAPI.City[];
   columns: Column[];
-  setFocusLocation: (e: Position) => void;
+  setFocusLocation: (e: GeoDBAPI.City) => void;
 };
 
 const TableBody = ({ props }: { props: TableBodyProps }) => {
@@ -25,10 +24,7 @@ const TableBody = ({ props }: { props: TableBodyProps }) => {
                   <button
                     className="btn btn-sm btn-link"
                     onClick={() => {
-                      props.setFocusLocation({
-                        lng: city.longitude,
-                        lat: city.latitude,
-                      });
+                      props.setFocusLocation(city);
                     }}
                   >
                     {" "}

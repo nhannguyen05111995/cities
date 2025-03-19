@@ -31,3 +31,14 @@
     opacity: 0.8;
     padding: 80px;
 }
+
+.banner {
+    width: 100%;
+    max-width: 1920px;
+    aspect-ratio: 1920 / 700;
+    object-fit: cover;
+    object-position: center;
+    margin: auto;
+    margin-bottom: 3rem;
+
+}

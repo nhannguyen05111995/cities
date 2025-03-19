@@ -174,8 +174,7 @@ const Form = ({ props }: FormProps) => {
           onDragEnd={(pos: string) => setLocation(pos)}
           setShownLocation={setShownLocation}
           open={modal}
-          location={defaulPosition}
-        ></Map>
+        />
         <div className="mt-2 text-end">
           <button className="btn btn-success" onClick={() => setModal(false)}>
             Apply
