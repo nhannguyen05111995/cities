@@ -13,7 +13,7 @@ export type SortCondition = {
     down: boolean;
 };
 export type SortBy = SortCondition & {
-    array: City[];
+    array?: City[];
 };
 
 export namespace GeoDBAPI {

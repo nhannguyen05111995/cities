@@ -1,3 +1,8 @@
+"use client";
+import { useDispatch } from "react-redux";
+import { setCity } from "../app/store/features/city";
+import { setQuery } from "../app/store/features/query";
+
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -7,7 +12,6 @@ import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import { Position } from "./Map";
 import { defaulPosition } from "@/configuration/Constant";
-import { GeoDBAPI } from "@/configuration/Type";
 import Accordion from "./UI/Accordion";
 
 interface CountryOption {
@@ -17,20 +21,15 @@ interface CountryOption {
 
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
-interface FormProps {
-  props: {
-    setQuery: (p: string) => void;
-    setCities: (p: GeoDBAPI.City[]) => void;
-  };
-}
-
-const Form = ({ props }: FormProps) => {
+const Form = () => {
   const [value, setValue] = useState<string>("");
   const [options, setOptions] = useState<CountryOption[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const [location, setLocation] = useState<string>("");
   const [shownLocation, setShownLocation] = useState<Position>(defaulPosition);
+  const dispatch = useDispatch();
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -42,8 +41,8 @@ const Form = ({ props }: FormProps) => {
     for (const [key, value] of formData.entries()) {
       if (value) queryString += `${key}=${value}&`;
     }
-    props.setCities([]);
-    props.setQuery(queryString);
+    dispatch(setCity([]));
+    dispatch(setQuery(queryString))
   }
 
   useEffect(() => {

@@ -1,17 +1,18 @@
+"use client";
+
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { GeoDBAPI } from "@/configuration/Type";
 import { defaulPosition } from "@/configuration/Constant";
 import CityDetail from "./CityDetail";
+import { useSelector } from "react-redux";
 
 interface MapProps {
   open: boolean;
   onDragEnd?: (coordinates: string) => void;
   setShownLocation?: (p: Position) => void;
-  focusCity?: GeoDBAPI.City;
 }
 
 export type Position = {
@@ -22,7 +23,8 @@ export type Position = {
 export default function Map(props: MapProps) {
   const [position, setPosition] = useState<Position>(defaulPosition);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { focusCity } = props;
+  const focusCity = useSelector((state) => state.focusCity.value);
+
   useEffect(() => {
     function toggleModal() {
       if (props.open) {
@@ -74,7 +76,9 @@ export default function Map(props: MapProps) {
         >
           <Tooltip direction="bottom" offset={[-15, 30]} opacity={1} permanent>
             {focusCity ? (
-              <CityDetail props={{ countryCode: focusCity.countryCode, focusCity }} />
+              <CityDetail
+                props={{ countryCode: focusCity.countryCode, focusCity }}
+              />
             ) : (
               "Drag me!"
             )}

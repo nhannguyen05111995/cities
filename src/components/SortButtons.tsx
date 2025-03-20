@@ -1,3 +1,5 @@
+"use client";
+
 import { GeoDBAPI, SortBy, SortCondition } from "@/configuration/Type";
 import React from "react";
 import classes from "./sortButtons.module.scss";
@@ -6,10 +8,9 @@ type SortButtonsProps = {
   sortCondition: SortCondition;
   setSortCondition: (p: SortCondition) => void;
   type: GeoDBAPI.CityKey;
-  cities: GeoDBAPI.City[];
 };
 const SortButtons = ({ props }: { props: SortButtonsProps }) => {
-  const { sortCondition, type, cities } = props;
+  const { sortCondition, type } = props;
   function sort(params: SortBy) {
     const { type, down } = params;
     props.setSortCondition({ type, down });
@@ -24,7 +25,7 @@ const SortButtons = ({ props }: { props: SortButtonsProps }) => {
               : "btn-outline-secondary"
           } ` + classes.btn_xs
         }
-        onClick={() => sort({ type, down: true, array: cities })}
+        onClick={() => sort({ type, down: true })}
       >
         <i className="bi bi-caret-up-fill" />
       </button>
@@ -36,7 +37,7 @@ const SortButtons = ({ props }: { props: SortButtonsProps }) => {
               : "btn-outline-secondary"
           } ` + classes.btn_xs
         }
-        onClick={() => sort({ type, down: false, array: cities })}
+        onClick={() => sort({ type, down: false })}
       >
         <i className="bi bi-caret-down-fill" />
       </button>

@@ -1,4 +1,4 @@
-// Modal as a separate component
+"use client";
 import React from "react";
 import { useEffect, useRef } from "react";
 import classes from "./modal.module.scss";

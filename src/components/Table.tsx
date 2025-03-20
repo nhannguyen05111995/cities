@@ -1,26 +1,20 @@
-import { GeoDBAPI, Column, SortCondition } from "@/configuration/Type";
+"use client";
+import { Column, SortCondition } from "@/configuration/Type";
 import React from "react";
 import TableBody from "./TableBody";
 import classes from "./home.module.scss";
 import TableHead from "./TableHead";
+import { useSelector } from "react-redux";
 
 type TableProps = {
   sortCondition: SortCondition;
-  cities: GeoDBAPI.City[];
   columns: Column[];
-  setFocusLocation: (p: GeoDBAPI.City) => void;
-  loading: boolean;
   setSortCondition: (p: SortCondition) => void;
 };
 const Table = ({ props }: { props: TableProps }) => {
-  const {
-    sortCondition,
-    cities,
-    columns,
-    setFocusLocation,
-    loading,
-    setSortCondition,
-  } = props;
+  const loading = useSelector((state) => state.loading.value);
+
+  const { sortCondition, columns, setSortCondition } = props;
 
   return (
     <div className={classes.table_container}>
@@ -30,13 +24,12 @@ const Table = ({ props }: { props: TableProps }) => {
         <table className="table w-100 table-striped border">
           <TableHead
             props={{
-              cities,
               columns,
               setSortCondition,
               sortCondition,
             }}
           />
-          <TableBody props={{ cities, columns, setFocusLocation }} />
+          <TableBody props={{ columns }} />
         </table>
       )}
     </div>

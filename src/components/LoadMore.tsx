@@ -1,15 +1,19 @@
+"use client";
 import { GeoDBAPI } from "@/configuration/Type";
+import { useDispatch, useSelector } from "react-redux";
+import { next, prev } from "../app/store/features/page";
 
 export default function LoadMore({
   props,
 }: {
   props: {
-    setPage: React.Dispatch<React.SetStateAction<number>>
     links: GeoDBAPI.ResponseLink[];
-    loading: boolean;
   };
 }) {
-  const { links, loading } = props;
+  const loading = useSelector((state) => state.loading.value);
+
+  const { links } = props;
+  const dispatch = useDispatch();
 
   return (
     <div className="text-center d-flex justify-content-between mb-5">
@@ -18,7 +22,7 @@ export default function LoadMore({
           disabled={loading}
           className="btn btn-outline-primary btn-sm"
           onClick={() => {
-            props.setPage((prev: number) => prev - 10);
+            dispatch(prev());
           }}
         >
           {" "}
@@ -31,7 +35,7 @@ export default function LoadMore({
           disabled={loading}
           className="btn btn-outline-primary btn-sm"
           onClick={() => {
-            props.setPage((prev: number) => prev + 10);
+            dispatch(next());
           }}
         >
           {!loading ? "Next page" : "🌀 Loading..."}

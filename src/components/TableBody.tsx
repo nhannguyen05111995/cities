@@ -1,14 +1,18 @@
+"use client";
+import { useSelector, useDispatch } from "react-redux";
+
 import React from "react";
-import { GeoDBAPI, Column } from "@/configuration/Type";
+import { Column } from "@/configuration/Type";
+import { setFocusCity } from "@/app/store/features/focusCity";
 
 type TableBodyProps = {
-  cities: GeoDBAPI.City[];
   columns: Column[];
-  setFocusLocation: (e: GeoDBAPI.City) => void;
 };
 
 const TableBody = ({ props }: { props: TableBodyProps }) => {
-  const { cities, columns } = props;
+  const { columns } = props;
+  const cities = useSelector((state) => state.city.value);
+  const dispatch = useDispatch();
 
   return (
     <tbody>
@@ -24,7 +28,7 @@ const TableBody = ({ props }: { props: TableBodyProps }) => {
                   <button
                     className="btn btn-sm btn-link"
                     onClick={() => {
-                      props.setFocusLocation(city);
+                      dispatch(setFocusCity(city));
                     }}
                   >
                     {" "}

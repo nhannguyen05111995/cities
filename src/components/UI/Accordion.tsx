@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import classes from "./accordion.module.scss";
 interface AccordionProps {

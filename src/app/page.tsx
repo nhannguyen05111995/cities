@@ -1,10 +1,11 @@
+"use client";
 import Home from "@/components/Home";
-
-export default async function Page() {  
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+export default function Page() {
   return (
-    <>
-      <Home/>
-    </>
+    <Provider store={store}>
+      <Home />
+    </Provider>
   );
 }
-
