@@ -9,7 +9,7 @@ export async function GET(req: NextRequest,) {
         const page = req ? req?.nextUrl?.searchParams.get("offset") : "";
         const sort = req ? req?.nextUrl?.searchParams.get("sort") : "";
         const query = req ? req?.nextUrl?.searchParams.get("query")?.replaceAll("+", "%2B") : "";
-        const url = `${API_URL}/v1/geo/cities?offset=${page}&limit=10&${query}&sort=${sort}`;
+        const url = `${API_URL}/v1/geo/cities?includeDeleted=None&offset=${page}&limit=10&${query}&sort=${sort}`;
         const headers = new Headers();
 
         headers.append("x-rapidapi-key", X_RAPID_API_KEY as string);

@@ -5,6 +5,7 @@ import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GeoDBAPI } from "@/configuration/Type";
 import { defaulPosition } from "@/configuration/Constant";
+import CityDetail from "./CityDetail";
 
 interface MapProps {
   open: boolean;
@@ -73,10 +74,7 @@ export default function Map(props: MapProps) {
         >
           <Tooltip direction="bottom" offset={[-15, 30]} opacity={1} permanent>
             {focusCity ? (
-              <div>
-                City: {focusCity?.city}, Country: {focusCity?.country},
-                Popolation: {focusCity?.population}
-              </div>
+              <CityDetail props={{ countryCode: focusCity.countryCode, focusCity }} />
             ) : (
               "Drag me!"
             )}

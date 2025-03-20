@@ -40,4 +40,14 @@ export namespace GeoDBAPI {
         href: string;
     };
     interface Metadata { currentOffset: number, totalCount: number }
+    interface Country {
+        capital: string
+        code: string
+        callingCode: string
+        currencyCodes: string[]
+        flagImageUri: string;
+        name: string
+        numRegions: number
+        wikiDataId: string
+    }
 }

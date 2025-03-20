@@ -8,7 +8,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
         const X_RAPID_API_HOST = process.env.API_HOST;
         const param = await params
         const slug = param.slug
-        const url = `${API_URL}/v1/geo/cities/${slug}`;
+        const url = `${API_URL}/v1/geo/countries/${slug}`;
         const headers = new Headers();
 
         headers.append("x-rapidapi-key", X_RAPID_API_KEY as string);
