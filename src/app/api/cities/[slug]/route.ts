@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { type NextRequest } from 'next/server'
-
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
 
     try {
         const API_URL = process.env.API_URL;
         const X_RAPID_API_KEY = process.env.API_KEY;
         const X_RAPID_API_HOST = process.env.API_HOST;
-        const value = req.nextUrl.searchParams.get("namePrefix");
-        const url = `${API_URL}/v1/geo/countries?namePrefix=${value}`;
+        const param = await params
+        const slug = param.slug
+        const url = `${API_URL}/v1/geo/cities/${slug}`;
         const headers = new Headers();
 
         headers.append("x-rapidapi-key", X_RAPID_API_KEY as string);

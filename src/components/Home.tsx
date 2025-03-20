@@ -7,11 +7,10 @@ import TableColumnsControl from "./TableColumnsControl";
 import Modal from "./UI/Modal";
 import dynamic from "next/dynamic";
 import Table from "./Table";
-import { sortBy } from "./utils";
 import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
 import { defaulSortCondition, initialColumns } from "@/configuration/Constant";
 import LoadMore from "./LoadMore";
-
+import Image from "next/image";
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default function Home() {
@@ -23,29 +22,28 @@ export default function Home() {
     useState<SortCondition>(defaulSortCondition);
   const [columns, setColumns] = useState<Column[]>(initialColumns);
   const [query, setQuery] = useState<string>("");
-  const [focusLocation, setFocusLocation] = useState<GeoDBAPI.City | undefined>();
+  const [focusLocation, setFocusLocation] = useState<
+    GeoDBAPI.City | undefined
+  >();
 
   useEffect(() => {
     const fetchdata = async () => {
       setLoading(true);
-      const url = `/api/cities/?offset=${page}&limit=10&query=${query}`;
+      const sort = `${!sortCondition.down ? "-" : ""}${sortCondition.type}`;
+      const url = `/api/cities/?offset=${page}&limit=10&sort=${sort}&query=${query}`;
       const response = await fetch(url);
       const json = await response.json();
       setLoading(false);
 
-      if (!Object.keys(json).length || "errors" in json) {
-        alert("Something went wrong, try again!");
+      if (!Object.keys(json).length) {
         return;
       }
-      const sortedArray = sortBy({
-        ...sortCondition,
-        array: [...cities, ...json.data],
-      });
-      setCities([...sortedArray]);
+
+      setCities([...json.data]);
       setLinks(json.links);
     };
     fetchdata();
-  }, [page, query]);
+  }, [page, query, sortCondition]);
 
   function checkBoxClicked(event: React.ChangeEvent<HTMLInputElement>) {
     const newColumns = columns.map((column) => {
@@ -60,8 +58,14 @@ export default function Home() {
 
   return (
     <>
-      {" "}
-      <img src="/global.jpg" alt="Global" className={classes.banner} />
+      <div className={classes.banner}>
+        <Image
+          src="/global.jpg"
+          alt="Global"
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
       <div className="container-xxl">
         <h1 className="text-center mb-5">World cities</h1>
         <Form props={{ setQuery, setCities }} />
@@ -70,7 +74,6 @@ export default function Home() {
           props={{
             sortCondition,
             setSortCondition,
-            sortBy,
             cities,
             columns,
             setFocusLocation,
@@ -80,9 +83,7 @@ export default function Home() {
         <LoadMore
           props={{
             loading,
-            setPage: () => {
-              setPage((prev) => prev + 10);
-            },
+            setPage,
             links,
           }}
         />
@@ -90,10 +91,7 @@ export default function Home() {
           openModal={focusLocation != null}
           closeModal={() => setFocusLocation(undefined)}
         >
-          <Map
-            open={focusLocation != null}
-            focusCity={focusLocation}
-          ></Map>
+          <Map open={focusLocation != null} focusCity={focusLocation} />
         </Modal>
       </div>
     </>

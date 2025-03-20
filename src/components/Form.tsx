@@ -77,6 +77,28 @@ const Form = ({ props }: FormProps) => {
     event.preventDefault();
     setModal(true);
   }
+  function handleLocationClick(event: React.MouseEvent<HTMLElement>) {
+    event.preventDefault();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (r) => {
+          const yy = `${r.coords.latitude}${
+            Number(r.coords.longitude) > 0
+              ? "%2B" + r.coords.longitude
+              : r.coords.longitude
+          }`;
+          setLocation(yy);
+          setShownLocation({ lat: r.coords.latitude, lng: r.coords.longitude });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
 
   return (
     <>
@@ -135,6 +157,10 @@ const Form = ({ props }: FormProps) => {
             />
             <button className="form-control mb-2" onClick={openMap}>
               Pick a location
+            </button>
+            Or
+            <button className="form-control mb-2" onClick={handleLocationClick}>
+              Use your current location{" "}
             </button>
             {location && (
               <>

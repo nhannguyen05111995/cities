@@ -32,8 +32,6 @@ export default function Map(props: MapProps) {
         setIsModalOpen(false);
       }
     }
-    console.log(props.open, focusCity);
-
     toggleModal();
   }, [props.open]);
 

@@ -1,15 +1,14 @@
-import { Column, GeoDBAPI, SortBy, SortCondition } from "@/configuration/Type";
+import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
 import SortButtons from "./SortButtons";
 
 type TableHeadProps = {
   cities: GeoDBAPI.City[];
   columns: Column[];
   setSortCondition: (e: SortCondition) => void;
-  sortBy: (params: SortBy) => GeoDBAPI.City[];
   sortCondition: SortCondition;
 };
 export default function TableHead({ props }: { props: TableHeadProps }) {
-  const { columns, sortCondition, sortBy, cities, setSortCondition } = props;
+  const { columns, sortCondition, cities, setSortCondition } = props;
   return (
     <thead style={{ position: "sticky", top: 0 }}>
       <tr>
@@ -22,7 +21,6 @@ export default function TableHead({ props }: { props: TableHeadProps }) {
                 props={{
                   type,
                   sortCondition,
-                  sortBy,
                   cities,
                   setSortCondition,
                 }}

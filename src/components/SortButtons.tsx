@@ -6,7 +6,6 @@ type SortButtonsProps = {
   sortCondition: SortCondition;
   setSortCondition: (p: SortCondition) => void;
   type: GeoDBAPI.CityKey;
-  sortBy: (params: SortBy) => GeoDBAPI.City[];
   cities: GeoDBAPI.City[];
 };
 const SortButtons = ({ props }: { props: SortButtonsProps }) => {
@@ -14,7 +13,6 @@ const SortButtons = ({ props }: { props: SortButtonsProps }) => {
   function sort(params: SortBy) {
     const { type, down } = params;
     props.setSortCondition({ type, down });
-    props.sortBy(params);
   }
   return (
     <>
