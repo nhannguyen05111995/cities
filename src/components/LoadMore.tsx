@@ -1,6 +1,6 @@
 "use client";
 import { GeoDBAPI } from "@/configuration/Type";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../app/hook";
 import { next, prev } from "../app/store/features/page";
 
 export default function LoadMore({
@@ -10,10 +10,10 @@ export default function LoadMore({
     links: GeoDBAPI.ResponseLink[];
   };
 }) {
-  const loading = useSelector((state) => state.loading.value);
+  const loading = useAppSelector((state: { loading: { value: boolean } }) => state.loading.value);
 
   const { links } = props;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className="text-center d-flex justify-content-between mb-5">

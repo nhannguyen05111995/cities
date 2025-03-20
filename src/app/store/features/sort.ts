@@ -1,10 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+const initialState: { value: string } = { value: "" }
 
 export const sortReducer = createSlice({
     name: 'sort',
-    initialState: { value: "" },
+    initialState,
     reducers: {
-        setValue: (state, action) => {
+        setValue: (state: { value: string }, action: PayloadAction<string>) => {
             state.value = action.payload
         },
     },

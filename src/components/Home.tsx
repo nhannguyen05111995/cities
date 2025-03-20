@@ -11,7 +11,7 @@ import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
 import { defaulSortCondition, initialColumns } from "@/configuration/Constant";
 import LoadMore from "./LoadMore";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../app/hook";
 import { setCity } from "@/app/store/features/city";
 import { setLoading } from "@/app/store/features/loading";
 import { setFocusCity } from "@/app/store/features/focusCity";
@@ -19,10 +19,17 @@ import { setFocusCity } from "@/app/store/features/focusCity";
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const query = useSelector((state) => state.query.value);
-  const page = useSelector((state) => state.page.value);
-  const focusCity = useSelector((state) => state.focusCity.value);
+  const dispatch = useAppDispatch();
+  const query = useAppSelector(
+    (state: { query: { value: string } }) => state.query.value
+  );
+  const page = useAppSelector(
+    (state: { page: { value: number } }) => state.page.value
+  );
+  const focusCity = useAppSelector(
+    (state: { focusCity: { value: GeoDBAPI.City | null } }) =>
+      state.focusCity.value
+  );
 
   const [links, setLinks] = useState<GeoDBAPI.ResponseLink[]>([]);
   const [sortCondition, setSortCondition] =
@@ -80,10 +87,10 @@ export default function Home() {
           }}
         />
         <Modal
-          openModal={Object.keys(focusCity).length > 0}
-          closeModal={() => dispatch(setFocusCity({}))}
+          openModal={focusCity != null}
+          closeModal={() => dispatch(setFocusCity(null))}
         >
-          <Map open={Object.keys(focusCity).length > 0} />
+          <Map open={focusCity != null} />
         </Modal>
       </div>
     </>

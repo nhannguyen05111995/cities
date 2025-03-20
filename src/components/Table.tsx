@@ -4,7 +4,7 @@ import React from "react";
 import TableBody from "./TableBody";
 import classes from "./home.module.scss";
 import TableHead from "./TableHead";
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../app/hook'
 
 type TableProps = {
   sortCondition: SortCondition;
@@ -12,8 +12,7 @@ type TableProps = {
   setSortCondition: (p: SortCondition) => void;
 };
 const Table = ({ props }: { props: TableProps }) => {
-  const loading = useSelector((state) => state.loading.value);
-
+  const loading = useAppSelector((state: { loading: { value: boolean } }) => state.loading.value);
   const { sortCondition, columns, setSortCondition } = props;
 
   return (

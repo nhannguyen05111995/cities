@@ -7,7 +7,8 @@ import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { defaulPosition } from "@/configuration/Constant";
 import CityDetail from "./CityDetail";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../app/hook";
+import { GeoDBAPI } from "@/configuration/Type";
 
 interface MapProps {
   open: boolean;
@@ -23,7 +24,10 @@ export type Position = {
 export default function Map(props: MapProps) {
   const [position, setPosition] = useState<Position>(defaulPosition);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const focusCity = useSelector((state) => state.focusCity.value);
+  const focusCity = useAppSelector(
+    (state: { focusCity: { value: GeoDBAPI.City | null } }) =>
+      state.focusCity.value
+  );
 
   useEffect(() => {
     function toggleModal() {

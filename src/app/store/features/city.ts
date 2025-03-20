@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { GeoDBAPI } from '@/configuration/Type';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+const initialState: { value: GeoDBAPI.City[] } = { value: [] }
 
 export const citySlice = createSlice({
     name: 'city',
-    initialState: { value: [] },
+    initialState,
     reducers: {
-        setCity: (state, action) => {
+        setCity: (state: { value: GeoDBAPI.City[] }, action: PayloadAction<GeoDBAPI.City[]>) => {
             state.value = action.payload
 
         },

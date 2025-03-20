@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+const initialState: { value: number } = { value: 0 }
 export const pageSlice = createSlice({
     name: 'page',
-    initialState: { value: 0 },
+    initialState,
     reducers: {
-        next: (state) => {
+        next: (state: { value: number }) => {
             state.value += 10
         },
-        prev: (state) => {
+        prev: (state: { value: number }) => {
             state.value -= 10
         },
     },

@@ -1,8 +1,7 @@
 "use client";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../app/hook";
 import { setCity } from "../app/store/features/city";
 import { setQuery } from "../app/store/features/query";
-
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -28,7 +27,7 @@ const Form = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [location, setLocation] = useState<string>("");
   const [shownLocation, setShownLocation] = useState<Position>(defaulPosition);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
