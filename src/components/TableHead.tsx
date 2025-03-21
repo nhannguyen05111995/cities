@@ -1,15 +1,11 @@
-"use client";
-
-import { Column, SortCondition } from "@/configuration/Type";
+import { Column } from "@/configuration/Type";
 import SortButtons from "./SortButtons";
 
 type TableHeadProps = {
   columns: Column[];
-  setSortCondition: (e: SortCondition) => void;
-  sortCondition: SortCondition;
 };
 export default function TableHead({ props }: { props: TableHeadProps }) {
-  const { columns, sortCondition, setSortCondition } = props;
+  const { columns } = props;
   return (
     <thead style={{ position: "sticky", top: 0 }}>
       <tr>
@@ -21,8 +17,6 @@ export default function TableHead({ props }: { props: TableHeadProps }) {
               <SortButtons
                 props={{
                   type,
-                  sortCondition,
-                  setSortCondition,
                 }}
               />
             </th>

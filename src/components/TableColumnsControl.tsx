@@ -1,5 +1,3 @@
-"use client";
-
 import { Column } from "@/configuration/Type";
 import React from "react";
 

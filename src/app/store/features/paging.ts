@@ -4,15 +4,15 @@ export const pageSlice = createSlice({
     name: 'page',
     initialState,
     reducers: {
-        next: (state: { value: number }) => {
+        goToNextPage22: (state: { value: number }) => {
             state.value += 10
         },
-        prev: (state: { value: number }) => {
+        goToPrevPage22: (state: { value: number }) => {
             state.value -= 10
         },
     },
 });
 
-export const { next, prev } = pageSlice.actions;
+export const { goToNextPage22, goToPrevPage22 } = pageSlice.actions;
 
 export default pageSlice.reducer;

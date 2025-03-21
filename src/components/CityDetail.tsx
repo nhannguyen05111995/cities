@@ -1,21 +1,18 @@
-"use client";
 import { GeoDBAPI } from "@/configuration/Type";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-export default function CityDetail({
-  props,
-}: {
-  props: {
-    countryCode: string;
-    focusCity: GeoDBAPI.City;
-  };
-}) {
-  const { countryCode, focusCity } = props;
+import { useAppSelector } from "@/app/hook";
+
+export default function CityDetail() {
+  const focusCity = useAppSelector(
+    (state: { focusCity: { value: GeoDBAPI.City | null } }) =>
+      state.focusCity.value
+  );
 
   const [country, setCountry] = useState<GeoDBAPI.Country | null>(null);
 
   useEffect(() => {
-    async function getCountry() {
+    async function getCountry(countryCode: string) {
       const url = `api/countries/${countryCode}`;
       const response = await fetch(url);
       const json = await response.json();
@@ -24,8 +21,8 @@ export default function CityDetail({
       }
       setCountry(json.data);
     }
-    getCountry();
-  }, []);
+    if (focusCity) getCountry(focusCity.countryCode);
+  });
 
   return (
     <div>
@@ -37,10 +34,11 @@ export default function CityDetail({
             width="20"
             height="20"
             alt={country.name}
-          /><br />
-          Capital city: {country.capital}, {" "} 
-          Currency: {country.currencyCodes.join(", ")}, {" "} <br />
-          Phone code: {country.callingCode} {" "}
+          />
+          <br />
+          Capital city: {country.capital}, Currency:{" "}
+          {country.currencyCodes.join(", ")}, <br />
+          Phone code: {country.callingCode}{" "}
         </>
       )}{" "}
       , Popolation: {focusCity?.population}

@@ -1,7 +1,6 @@
-"use client";
 import { GeoDBAPI } from "@/configuration/Type";
 import { useAppSelector, useAppDispatch } from "../app/hook";
-import { next, prev } from "../app/store/features/page";
+import { goToNextPage22, goToPrevPage22 } from "../app/store/features/paging";
 
 export default function LoadMore({
   props,
@@ -10,7 +9,9 @@ export default function LoadMore({
     links: GeoDBAPI.ResponseLink[];
   };
 }) {
-  const loading = useAppSelector((state: { loading: { value: boolean } }) => state.loading.value);
+  const loading = useAppSelector(
+    (state: { loading: { value: boolean } }) => state.loading.value
+  );
 
   const { links } = props;
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ export default function LoadMore({
           disabled={loading}
           className="btn btn-outline-primary btn-sm"
           onClick={() => {
-            dispatch(prev());
+            dispatch(goToPrevPage22());
           }}
         >
           {" "}
@@ -35,7 +36,7 @@ export default function LoadMore({
           disabled={loading}
           className="btn btn-outline-primary btn-sm"
           onClick={() => {
-            dispatch(next());
+            dispatch(goToNextPage22());
           }}
         >
           {!loading ? "Next page" : "🌀 Loading..."}

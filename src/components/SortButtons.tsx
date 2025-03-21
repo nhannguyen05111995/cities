@@ -1,20 +1,19 @@
-"use client";
-
-import { GeoDBAPI, SortBy, SortCondition } from "@/configuration/Type";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
+import { setSortValue } from "@/app/store/features/sort";
+import { GeoDBAPI, SortCondition } from "@/configuration/Type";
 import React from "react";
 import classes from "./sortButtons.module.scss";
 
 type SortButtonsProps = {
-  sortCondition: SortCondition;
-  setSortCondition: (p: SortCondition) => void;
   type: GeoDBAPI.CityKey;
 };
 const SortButtons = ({ props }: { props: SortButtonsProps }) => {
-  const { sortCondition, type } = props;
-  function sort(params: SortBy) {
-    const { type, down } = params;
-    props.setSortCondition({ type, down });
-  }
+  const dispatch = useAppDispatch();
+  const sortCondition = useAppSelector(
+    (state: { sort: { value: SortCondition } }) => state.sort.value
+  );
+  const { type } = props;
+
   return (
     <>
       <button
@@ -25,7 +24,7 @@ const SortButtons = ({ props }: { props: SortButtonsProps }) => {
               : "btn-outline-secondary"
           } ` + classes.btn_xs
         }
-        onClick={() => sort({ type, down: true })}
+        onClick={() => dispatch(setSortValue({ type, down: true }))}
       >
         <i className="bi bi-caret-up-fill" />
       </button>
@@ -37,7 +36,7 @@ const SortButtons = ({ props }: { props: SortButtonsProps }) => {
               : "btn-outline-secondary"
           } ` + classes.btn_xs
         }
-        onClick={() => sort({ type, down: false })}
+        onClick={() => dispatch(setSortValue({ type, down: false }))}
       >
         <i className="bi bi-caret-down-fill" />
       </button>

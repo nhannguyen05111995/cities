@@ -1,19 +1,18 @@
-"use client";
-import { Column, SortCondition } from "@/configuration/Type";
+import { Column } from "@/configuration/Type";
 import React from "react";
 import TableBody from "./TableBody";
 import classes from "./home.module.scss";
 import TableHead from "./TableHead";
-import { useAppSelector } from '../app/hook'
+import { useAppSelector } from "../app/hook";
 
 type TableProps = {
-  sortCondition: SortCondition;
   columns: Column[];
-  setSortCondition: (p: SortCondition) => void;
 };
 const Table = ({ props }: { props: TableProps }) => {
-  const loading = useAppSelector((state: { loading: { value: boolean } }) => state.loading.value);
-  const { sortCondition, columns, setSortCondition } = props;
+  const loading = useAppSelector(
+    (state: { loading: { value: boolean } }) => state.loading.value
+  );
+  const { columns } = props;
 
   return (
     <div className={classes.table_container}>
@@ -24,8 +23,6 @@ const Table = ({ props }: { props: TableProps }) => {
           <TableHead
             props={{
               columns,
-              setSortCondition,
-              sortCondition,
             }}
           />
           <TableBody props={{ columns }} />

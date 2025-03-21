@@ -1,5 +1,3 @@
-"use client";
-
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
@@ -40,7 +38,7 @@ export default function Map(props: MapProps) {
       }
     }
     toggleModal();
-  }, [props.open]);
+  }, [props.open, focusCity]);
 
   const markerRef = useRef<L.Marker | null>(null);
   const eventHandlers = useMemo(
@@ -80,9 +78,7 @@ export default function Map(props: MapProps) {
         >
           <Tooltip direction="bottom" offset={[-15, 30]} opacity={1} permanent>
             {focusCity ? (
-              <CityDetail
-                props={{ countryCode: focusCity.countryCode, focusCity }}
-              />
+              <CityDetail/>
             ) : (
               "Drag me!"
             )}

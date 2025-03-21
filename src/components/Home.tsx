@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Form from "@/components/Form";
@@ -8,7 +7,7 @@ import Modal from "./UI/Modal";
 import dynamic from "next/dynamic";
 import Table from "./Table";
 import { Column, GeoDBAPI, SortCondition } from "@/configuration/Type";
-import { defaulSortCondition, initialColumns } from "@/configuration/Constant";
+import { initialColumns } from "@/configuration/Constant";
 import LoadMore from "./LoadMore";
 import Image from "next/image";
 import { useAppSelector, useAppDispatch } from "../app/hook";
@@ -30,17 +29,18 @@ export default function Home() {
     (state: { focusCity: { value: GeoDBAPI.City | null } }) =>
       state.focusCity.value
   );
+  const sort = useAppSelector(
+    (state: { sort: { value: SortCondition } }) => state.sort.value
+  );
 
   const [links, setLinks] = useState<GeoDBAPI.ResponseLink[]>([]);
-  const [sortCondition, setSortCondition] =
-    useState<SortCondition>(defaulSortCondition);
   const [columns, setColumns] = useState<Column[]>(initialColumns);
 
   useEffect(() => {
     const fetchdata = async () => {
       dispatch(setLoading(true));
-      const sort = `${!sortCondition.down ? "-" : ""}${sortCondition.type}`;
-      const url = `/api/cities/?offset=${page}&limit=10&sort=${sort}&query=${query}`;
+      const sort111 = `${!sort.down ? "-" : ""}${sort.type}`;
+      const url = `/api/cities/?offset=${page}&limit=10&sort=${sort111}&query=${query}`;
       const response = await fetch(url);
       const json = await response.json();
       dispatch(setLoading(false));
@@ -52,7 +52,7 @@ export default function Home() {
       dispatch(setCity([...json.data]));
     };
     fetchdata();
-  }, [page, query, sortCondition]);
+  }, [page, query, sort]);
 
   function checkBoxClicked(event: React.ChangeEvent<HTMLInputElement>) {
     const newColumns = columns.map((column) => {
@@ -74,13 +74,7 @@ export default function Home() {
         <h1 className="text-center mb-5">World cities</h1>
         <Form />
         <TableColumnsControl props={{ columns, checkBoxClicked }} />
-        <Table
-          props={{
-            sortCondition,
-            setSortCondition,
-            columns,
-          }}
-        />
+        <Table props={{ columns }} />
         <LoadMore
           props={{
             links,

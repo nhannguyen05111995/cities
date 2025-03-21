@@ -1,4 +1,3 @@
-"use client";
 import { useAppDispatch } from "../app/hook";
 import { setCity } from "../app/store/features/city";
 import { setQuery } from "../app/store/features/query";
@@ -56,7 +55,7 @@ const Form = () => {
       const response = await fetch(url);
       const json = await response.json();
       setLoading(false);
-      if (!Object.keys(json).length || "errors" in json) return;
+      if (!Object.keys(json).length) return;
       const options =
         json.data.map((e: CountryOption) => ({ ...e, checked: false })) || [];
       setOptions(options);

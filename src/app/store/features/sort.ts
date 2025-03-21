@@ -1,16 +1,18 @@
+import { defaulSortCondition } from '@/configuration/Constant';
+import { SortCondition } from '@/configuration/Type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-const initialState: { value: string } = { value: "" }
+const initialState: { value: SortCondition } = { value: defaulSortCondition }
 
 export const sortReducer = createSlice({
     name: 'sort',
     initialState,
     reducers: {
-        setValue: (state: { value: string }, action: PayloadAction<string>) => {
+        setSortValue: (state: { value: SortCondition }, action: PayloadAction<SortCondition>) => {
             state.value = action.payload
         },
     },
 });
 
-export const { setValue } = sortReducer.actions;
+export const { setSortValue } = sortReducer.actions;
 
 export default sortReducer.reducer;

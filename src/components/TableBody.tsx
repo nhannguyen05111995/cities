@@ -1,6 +1,4 @@
-"use client";
 import { useAppSelector, useAppDispatch } from "../app/hook";
-
 import React from "react";
 import { Column, GeoDBAPI } from "@/configuration/Type";
 import { setFocusCity } from "@/app/store/features/focusCity";
@@ -11,7 +9,7 @@ type TableBodyProps = {
 
 const TableBody = ({ props }: { props: TableBodyProps }) => {
   const { columns } = props;
-  const cities = useAppSelector(
+  const cities: GeoDBAPI.City[] = useAppSelector(
     (state: { city: { value: GeoDBAPI.City[] } }) => state.city.value
   );
   const dispatch = useAppDispatch();
