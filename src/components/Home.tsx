@@ -39,6 +39,7 @@ export default function Home() {
   useEffect(() => {
     const fetchdata = async () => {
       dispatch(setLoading(true));
+      setLinks([]);
       const sortQuery = `${!sort.down ? "-" : ""}${sort.type}`;
       const url = `/api/cities/`;
       const body = {

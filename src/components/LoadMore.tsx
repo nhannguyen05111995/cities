@@ -17,7 +17,7 @@ export default function LoadMore({
   const dispatch = useAppDispatch();
 
   return (
-    <div className={ classes.load_more}>
+    <div className={classes.load_more}>
       {links && links.find((link) => link.rel == "prev") && (
         <button
           disabled={loading}

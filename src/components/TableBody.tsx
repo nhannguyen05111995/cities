@@ -12,35 +12,38 @@ const TableBody = ({ props }: { props: TableBodyProps }) => {
   const cities: GeoDBAPI.City[] = useAppSelector(
     (state: { city: { value: GeoDBAPI.City[] } }) => state.city.value
   );
+
   const dispatch = useAppDispatch();
 
   return (
-    <tbody>
-      {cities.map((city) => (
-        <tr key={`table-row-${city.id}`}>
-          {columns
-            .filter((c) => c.open)
-            .map((column, i) => (
-              <td key={i}>
-                {!column.map ? (
-                  <span>{city[column.type]}</span>
-                ) : (
-                  <button
-                    className="btn btn-sm btn-link"
-                    onClick={() => {
-                      dispatch(setFocusCity(city));
-                    }}
-                  >
-                    {" "}
-                    <i className="bi bi-geo-alt-fill mr-2"></i>
-                    {city[column.type]}
-                  </button>
-                )}
-              </td>
-            ))}
-        </tr>
-      ))}
-    </tbody>
+    <>
+      <tbody>
+        {cities.map((city) => (
+          <tr key={`table-row-${city.id}`}>
+            {columns
+              .filter((c) => c.open)
+              .map((column, i) => (
+                <td key={i}>
+                  {!column.map ? (
+                    <span>{city[column.type]}</span>
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-link"
+                      onClick={() => {
+                        dispatch(setFocusCity(city));
+                      }}
+                    >
+                      {" "}
+                      <i className="bi bi-geo-alt-fill mr-2"></i>
+                      {city[column.type]}
+                    </button>
+                  )}
+                </td>
+              ))}
+          </tr>
+        ))}
+      </tbody>
+    </>
   );
 };
 

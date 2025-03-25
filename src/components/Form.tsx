@@ -11,6 +11,7 @@ import "leaflet/dist/leaflet.css";
 import { Position } from "./Map";
 import { defaulPosition } from "@/configuration/Constant";
 import Accordion from "./UI/Accordion";
+import { setLoading } from "@/app/store/features/loading";
 
 interface CountryOption {
   name: string;
@@ -22,7 +23,7 @@ const Map = dynamic(() => import("./Map"), { ssr: false });
 const Form = () => {
   const [value, setValue] = useState<string>("");
   const [options, setOptions] = useState<CountryOption[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingName, setLoadingName] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
   const [location, setLocation] = useState<string>("");
   const [shownLocation, setShownLocation] = useState<Position>(defaulPosition);
@@ -30,7 +31,7 @@ const Form = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData= new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget);
     formData.set(
       "location",
       (formData.get("location") as string)?.replaceAll("+", "%2B")
@@ -40,23 +41,24 @@ const Form = () => {
       if (value && typeof value == 'string')
           queryString[key] = value
     }
+    dispatch(setLoading(true));
     dispatch(setCity([]));
     dispatch(setQuery(queryString))
-    
+
   }
 
   useEffect(() => {
     const fetchdata = async () => {
       if (!value) {
-        setLoading(false);
+        setLoadingName(false);
         setOptions([]);
         return;
       }
-      setLoading(true);
+      setLoadingName(true);
       const url = `api/countries?namePrefix=${value}`;
       const response = await fetch(url);
       const json = await response.json();
-      setLoading(false);
+      setLoadingName(false);
       if (!Object.keys(json).length) return;
       const options =
         json.data.map((e: CountryOption) => ({ ...e, checked: false })) || [];
@@ -120,13 +122,13 @@ const Form = () => {
               className={"form-control mb-2 " + classes.special}
               placeholder="Search..."
               onChange={(e) => {
-                setLoading(true);
+                setLoadingName(true);
                 setValue(e.target.value);
               }}
             />
-            {loading ? (
-              <p>Loading..</p>
-            ) : loading == false && options && options.length ? (
+            {loadingName ? (
+              <p>LoadingName..</p>
+            ) : loadingName == false && options && options.length ? (
               <select
                 className="form-select"
                 name="countryIds"
