@@ -1,7 +1,7 @@
 import { GeoDBAPI } from "@/configuration/Type";
 import { useAppSelector, useAppDispatch } from "../app/hook";
-import { goToNextPage22, goToPrevPage22 } from "../app/store/features/paging";
-
+import { goToNextPage, goToPrevPage } from "../app/store/features/paging";
+import classes from "./loadMore.module.scss";
 export default function LoadMore({
   props,
 }: {
@@ -17,13 +17,13 @@ export default function LoadMore({
   const dispatch = useAppDispatch();
 
   return (
-    <div className="text-center d-flex justify-content-between mb-5">
+    <div className={ classes.load_more}>
       {links && links.find((link) => link.rel == "prev") && (
         <button
           disabled={loading}
-          className="btn btn-outline-primary btn-sm"
+          className={classes.prev + " btn btn-outline-primary btn-sm"}
           onClick={() => {
-            dispatch(goToPrevPage22());
+            dispatch(goToPrevPage());
           }}
         >
           {" "}
@@ -34,9 +34,9 @@ export default function LoadMore({
       {links && links.find((link) => link.rel == "next") && (
         <button
           disabled={loading}
-          className="btn btn-outline-primary btn-sm"
+          className={classes.next + " btn btn-outline-primary btn-sm"}
           onClick={() => {
-            dispatch(goToNextPage22());
+            dispatch(goToNextPage());
           }}
         >
           {!loading ? "Next page" : "🌀 Loading..."}

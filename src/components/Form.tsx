@@ -80,12 +80,12 @@ const Form = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (r) => {
-          const yy = `${r.coords.latitude}${
+          const location = `${r.coords.latitude}${
             Number(r.coords.longitude) > 0
               ? "%2B" + r.coords.longitude
               : r.coords.longitude
           }`;
-          setLocation(yy);
+          setLocation(location);
           setShownLocation({ lat: r.coords.latitude, lng: r.coords.longitude });
         },
         (error) => {
