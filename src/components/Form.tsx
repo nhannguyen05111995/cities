@@ -101,10 +101,15 @@ const Form = () => {
     }
   }
 
+  function handleReset() {
+    setLocation("")
+    setValue('')
+  }
+
   return (
     <>
       <Accordion title="Table filter:">
-        <form onSubmit={handleSubmit} className={"row mb-4"}>
+        <form onSubmit={handleSubmit} onReset={handleReset} className={"row mb-4"}>
           <div className="col">
             <label htmlFor="namePrefix">Name prefix:</label>
             <input
@@ -127,7 +132,7 @@ const Form = () => {
               }}
             />
             {loadingName ? (
-              <p>LoadingName..</p>
+              <p>Loading...</p>
             ) : loadingName == false && options && options.length ? (
               <select
                 className="form-select"
@@ -190,8 +195,11 @@ const Form = () => {
             />
           </div>
           <div className="col">
+          <button className="form-control mb-2 btn btn-outline-primary" type="reset">
+              Reset
+            </button>
             <button className="form-control mb-2 btn btn-primary" type="submit">
-              Find
+              Search
             </button>
           </div>
         </form>
