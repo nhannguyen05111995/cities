@@ -20,7 +20,7 @@ const Map = dynamic(() => import("./Map"), { ssr: false });
 export default function Home() {
   const dispatch = useAppDispatch();
   const query = useAppSelector(
-    (state: { query: { value: string } }) => state.query.value
+    (state: { query: { value: Record<string, string> } }) => state.query.value
   );
   const page = useAppSelector(
     (state: { page: { value: number } }) => state.page.value
@@ -39,9 +39,14 @@ export default function Home() {
   useEffect(() => {
     const fetchdata = async () => {
       dispatch(setLoading(true));
-      const sort111 = `${!sort.down ? "-" : ""}${sort.type}`;
-      const url = `/api/cities/?offset=${page}&limit=10&sort=${sort111}&query=${query}`;
-      const response = await fetch(url);
+      const sortQuery = `${!sort.down ? "-" : ""}${sort.type}`;
+      const url = `/api/cities/`;
+      const body = {
+        offset: page,
+        limit: 10,
+        sort: sortQuery,
+      }
+      const response = await fetch(url, { method: "POST", body: JSON.stringify({...body, ...query} )});
       const json = await response.json();
       dispatch(setLoading(false));
       if (!Object.keys(json).length) {

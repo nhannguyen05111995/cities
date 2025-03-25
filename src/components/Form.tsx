@@ -35,12 +35,14 @@ const Form = () => {
       "location",
       (formData.get("location") as string)?.replaceAll("+", "%2B")
     );
-    let queryString = "";
+    let queryString:Record<string,string> = {};
     for (const [key, value] of formData.entries()) {
-      if (value) queryString += `${key}=${value}&`;
+      if (value) //queryString += `${key}=${value}&`;
+          queryString[key] = value
     }
     dispatch(setCity([]));
     dispatch(setQuery(queryString))
+    
   }
 
   useEffect(() => {

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-const initialState: { value: string } = { value: "" }
+const initialState: { value: Record<string, string> } = { value: {} }
 export const querySlice = createSlice({
     name: 'query',
     initialState,
     reducers: {
-        setQuery: (state: { value: string }, action: PayloadAction<string>) => {
+        setQuery: (state: { value: Record<string, string> }, action: PayloadAction<Record<string, string>>) => {
             state.value = action.payload
         },
     },

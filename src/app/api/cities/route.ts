@@ -1,20 +1,21 @@
 import { NextResponse } from "next/server";
 import { type NextRequest } from 'next/server'
-export async function GET(req: NextRequest,) {
+export async function POST(req: NextRequest) {
 
     try {
+        const res = await req.json()
         const API_URL = process.env.API_URL;
         const X_RAPID_API_KEY = process.env.API_KEY;
         const X_RAPID_API_HOST = process.env.API_HOST;
-        const page = req ? req?.nextUrl?.searchParams.get("offset") : "";
-        const sort = req ? req?.nextUrl?.searchParams.get("sort") : "";
-        const query = req ? req?.nextUrl?.searchParams.get("query")?.replaceAll("+", "%2B") : "";
-        const url = `${API_URL}/v1/geo/cities?includeDeleted=None&offset=${page}&limit=10&${query}&sort=${sort}`;
+        let query = ""
+        for (const [key, value] of Object.entries(res)) {
+            query += `${key}=${value}&`
+          }
+        const url = `${API_URL}/v1/geo/cities?includeDeleted=None&${query}`;
         const headers = new Headers();
 
         headers.append("x-rapidapi-key", X_RAPID_API_KEY as string);
         headers.append("x-rapidapi-host", X_RAPID_API_HOST as string);
-
 
         const requestOptions = {
             method: 'GET',
