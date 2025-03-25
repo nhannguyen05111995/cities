@@ -30,14 +30,14 @@ const Form = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formData= new FormData(event.currentTarget);
     formData.set(
       "location",
       (formData.get("location") as string)?.replaceAll("+", "%2B")
     );
-    let queryString:Record<string,string> = {};
+    const queryString:Record<string,string> = {};
     for (const [key, value] of formData.entries()) {
-      if (value) //queryString += `${key}=${value}&`;
+      if (value && typeof value == 'string')
           queryString[key] = value
     }
     dispatch(setCity([]));
